@@ -14,8 +14,6 @@ namespace Infrastructure.Data.Config
         public void Configure(EntityTypeBuilder<Brand> builder)
         {
             builder.Property(x => x.Name).HasMaxLength(100);
-
-            builder.Property(x => x.Name).HasPrecision(18, 2);
         }
     }
 }

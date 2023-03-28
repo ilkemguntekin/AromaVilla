@@ -15,7 +15,7 @@ namespace Infrastructure.Data.Config
         {
             builder.Property(x => x.Name).HasMaxLength(100);
 
-            builder.Property(x => x.Name).HasPrecision(18,2);
+            builder.Property(x => x.Price).HasPrecision(18,2);
         }
     }
 }
