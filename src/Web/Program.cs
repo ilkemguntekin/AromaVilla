@@ -1,7 +1,7 @@
+global using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Data;
-using Infrastructure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,5 +44,11 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+using (var scope= app.Services.CreateScope())
+{
+    var shopContext = scope.ServiceProvider.GetRequiredService<ShopContext>();
+    await ShopContextSeed.SeedAsync(shopContext);
+}
 
 app.Run();
