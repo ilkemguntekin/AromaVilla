@@ -1,7 +1,12 @@
 global using Infrastructure.Identity;
+global using ApplicationCore.Interfaces;
+global using ApplicationCore.Entities;
+global using Web.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Data;
+using Web.Interfaces;
+using Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +17,8 @@ builder.Services.AddDbContext<ShopContext>(options =>
 builder.Services.AddDbContext<AppIdentityDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("AppIdentityDbContext")));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>)); //RepositoryPattern
+builder.Services.AddScoped<IHomeViewModelService, HomeViewModelService>();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
@@ -34,6 +41,7 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseRequestLocalization("en-US");  //static language.
 
 app.UseRouting();
 
